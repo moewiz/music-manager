@@ -12,7 +12,7 @@ import { PlaylistsComponent } from './playlists/playlists.component';
 const appRoutes: Routes = [
   { path: 'songs', component: SongsComponent },
   { path: 'playlists', component: PlaylistsComponent }
-]
+];
 
 @NgModule({
   declarations: [

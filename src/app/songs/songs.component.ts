@@ -12,18 +12,36 @@ import * as _ from 'lodash';
 export class SongsComponent implements OnInit {
   title: string = "Songs";
   songs: Song[];
-  public flagEditSong = false;
 
-  constructor(private songService: SongService) {}
+  selectedSong: Song;
+  flagEdit = false;
 
-  ngOnInit():void {
+  constructor(private songService: SongService) {
+  }
+
+  ngOnInit(): void {
+    this.getSongs();
+  }
+
+  getSongs(): void {
     this.songs = this.songService.getSongs();
   }
 
-  // bind song to form edit
+  // bind song to song form
   editSong(song) {
-    this.flagEditSong = true;
-    this.model = _.cloneDeep(song);
+    this.flagEdit = true;
+    this.selectedSong = _.cloneDeep(song);
+  }
+
+
+  deleteSong(_song) {
+    this.songs = this.songService.deleteSong(_song);
+  }
+
+  /***** SONG FORM *****/
+  addSong(song) {
+    this.songService.addSong(song);
+    this.newSong();
   }
 
   updateSong(song) {
@@ -31,21 +49,9 @@ export class SongsComponent implements OnInit {
     this.newSong();
   }
 
-  deleteSong(_song) {
-    this.songs = this.songService.deleteSong(_song);
-  }
-
-  /***** FORM *****/
-  model:Song = new Song();
-
-  onSubmit() {
-    this.songService.addSong(this.model);
-    this.newSong();
-  }
-
   newSong() {
-    this.model = new Song();
-    this.flagEditSong = false;
+    this.selectedSong = new Song();
+    this.flagEdit = false;
   }
 
 }
