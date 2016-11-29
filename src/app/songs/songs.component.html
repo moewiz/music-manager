@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Artist</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let song of songs">
+          <td>{{ song.id }}</td>
+          <td>{{ song.name }}</td>
+          <td>{{ song.artist }}</td>
+          <td>
+            <button (click)="editSong(song);" class="btn btn-warning">Edit</button>
+            <button (click)="deleteSong(song)" class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <form #songForm="ngForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" required [(ngModel)]="model.name" name="name"
+                 #name="ngModel"/>
+          <div [hidden]="name.valid || name.pristine"
+               class="alert alert-danger">
+            Name is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="artist">Artist</label>
+          <input type="text" class="form-control" id="artist" [(ngModel)]="model.artist" name="artist"/>
+        </div>
+
+        <button type="submit" *ngIf="!flagEditSong" class="btn btn-primary" (click)="onSubmit(); songForm.reset()"
+                [disabled]="!songForm.form.valid">Submit
+        </button>
+        <button type="submit" *ngIf="flagEditSong" class="btn btn-primary" (click)="updateSong(model);"
+                [disabled]="!songForm.form.valid">Update
+        </button>
+
+        <button type="button" class="btn btn-default" (click)="newSong(); songForm.reset()">New song</button>
+      </form>
+    </div>
+  </div>
+</div>
