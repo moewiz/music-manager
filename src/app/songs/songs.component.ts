@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SongService} from './song.service';
 import {Song} from './song';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'songs',
