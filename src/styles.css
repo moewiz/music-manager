@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+#loader {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  color: rgba(158, 158, 158, 0.89);
+
+  background-color: #e8e8e8;
+}
