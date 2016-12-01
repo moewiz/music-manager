@@ -8,7 +8,7 @@ import { SongsComponent } from './songs/songs.component';
 import { SongFormComponent } from './song-form/song-form.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
 import { AddNewSongComponent } from './add-new-song/add-new-song.component';
-import { AppRoutingComponent } from './app-routing/app-routing.component';
+import { AppRoutingComponent } from './app-routing.component';
 
 @NgModule({
   declarations: [

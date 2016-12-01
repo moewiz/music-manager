@@ -2,18 +2,33 @@
   <div class="row">
     <h3 class="col-md-12">{{ title }}</h3>
     <div class="col-md-12">
-      <form>
+      <form #songForm="ngForm">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" required name="name" #name/>
+          <input type="text" class="form-control" id="name" value="{{ model.name }}" name="name" [disabled]="flagEdit"
+                 [(ngModel)]="model.name" #name="ngModel"
+                 autocomplete="off" required/>
+          <div [hidden]="name.valid || name.pristine"
+               class="alert alert-danger">
+            Song name is required
+          </div>
         </div>
         <div class="form-group">
           <label for="artist">Artist</label>
-          <input type="text" class="form-control" id="artist" name="artist" #artist/>
+          <input type="text" class="form-control" id="artist" value="{{ model.artist }}" name="artist"
+                 [(ngModel)]="model.artist"
+                 autocomplete="off"/>
         </div>
       </form>
-      <button class="btn btn-primary" (click)="onAddSong({name: name.value, artist: artist.value});">Save
+
+      <button class="btn btn-primary" *ngIf="!flagEdit" [disabled]="!songForm.form.valid"
+              (click)="onAddSong();">Save
       </button>
+
+      <button class="btn btn-primary" *ngIf="flagEdit" [disabled]="!songForm.form.valid || disableUpdateBtn()"
+              (click)="onUpdateSong();">Update
+      </button>
+
       <button class="btn btn-default" (click)="onCancel()">Cancel</button>
     </div>
   </div>
