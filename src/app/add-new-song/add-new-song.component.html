@@ -9,7 +9,7 @@
                  [(ngModel)]="model.name" #name="ngModel"
                  autocomplete="off" required/>
           <div [hidden]="name.valid || name.pristine"
-               class="alert alert-danger">
+               class="text-danger">
             Song name is required
           </div>
         </div>

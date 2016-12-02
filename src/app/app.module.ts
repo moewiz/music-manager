@@ -4,24 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { SongsComponent } from './songs/songs.component';
-import { PlaylistsComponent } from './playlists/playlists.component';
-import { AddNewSongComponent } from './add-new-song/add-new-song.component';
 import { AppRoutingModule } from "./app-routing.module";
+import { SongModule } from "./songs/song.module";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SongsComponent,
-    PlaylistsComponent,
-    AddNewSongComponent
-  ],
   imports: [
-    BrowserModule,
+    BrowserModule, // rootModule uses BrowserModule and others module use CommonModule
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SongModule
   ],
+  declarations: [AppComponent],
+  providers: [], // shared modules, shared services
   bootstrap: [AppComponent]
 })
 export class AppModule {
