@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Song} from './song';
-import {SONGS} from './mock-songs';
+import { Injectable } from '@angular/core';
+import { Song } from './song';
+import { SONGS } from './mock-songs';
 import * as _ from 'lodash';
 
 @Injectable()

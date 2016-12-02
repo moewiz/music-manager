@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {SongService} from './song.service';
-import {Song} from './song';
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { SongService } from './song.service';
+import { Song } from './song';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'songs',

@@ -45,7 +45,6 @@ export class AddNewSongComponent implements OnInit {
         });
     } else {
       this.flagEdit = false;
-      this.model = new Song();
     }
 
   }

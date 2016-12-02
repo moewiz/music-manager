@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { SongsComponent } from './songs/songs.component';
 import { PlaylistsComponent } from './playlists/playlists.component';
 import { AddNewSongComponent } from './add-new-song/add-new-song.component';
-import { AppRoutingComponent } from './app-routing.component';
+import { AppRoutingModule } from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -20,8 +20,9 @@ import { AppRoutingComponent } from './app-routing.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingComponent
+    AppRoutingModule
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
