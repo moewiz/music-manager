@@ -21,11 +21,11 @@
         </div>
       </form>
 
-      <button class="btn btn-primary" *ngIf="!flagEdit" [disabled]="!songForm.form.valid"
+      <button class="btn btn-primary" *ngIf="!flagEdit" [disabled]="!songForm.valid"
               (click)="onAddSong();">Save
       </button>
 
-      <button class="btn btn-primary" *ngIf="flagEdit" [disabled]="!songForm.form.valid || disableUpdateBtn()"
+      <button class="btn btn-primary" *ngIf="flagEdit" [disabled]="!songForm.valid || disableUpdateBtn()"
               (click)="onUpdateSong();">Update
       </button>
 

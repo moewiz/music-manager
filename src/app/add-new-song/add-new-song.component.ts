@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {SongService} from "../songs/song.service";
-import {Song} from "../songs/song";
-import {Router, ActivatedRoute, Params} from "@angular/router";
+import { SongService } from "../songs/song.service";
+import { Song } from "../songs/song";
+import { Router, ActivatedRoute, Params } from "@angular/router";
 import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
 
@@ -25,18 +25,18 @@ export class AddNewSongComponent implements OnInit {
   cachedModel: Song = new Song();
   flagEdit: boolean = false;
 
-  constructor(
-    private songService: SongService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
+  constructor (private songService: SongService,
+               private router: Router,
+               private route: ActivatedRoute) {
+  }
 
-  ngOnInit() {
+  ngOnInit () {
     let nameParam = this.route.snapshot.params['name'];
 
     if (nameParam) {
       this.title = "Edit song";
       this.flagEdit = true;
+
       this.route.params
         .switchMap((params: Params) => this.songService.getSongByName(params['name']))
         .subscribe((song: Song) => {
@@ -50,21 +50,21 @@ export class AddNewSongComponent implements OnInit {
 
   }
 
-  onAddSong() {
+  onAddSong () {
     this.songService.addSong(this.model);
     this.router.navigate(['/songs']);
   }
 
-  onUpdateSong() {
+  onUpdateSong () {
     this.songService.updateSong(this.model);
     this.router.navigate(['/songs']);
   }
 
-  onCancel() {
+  onCancel () {
     this.router.navigate(['/songs'])
   }
 
-  disableUpdateBtn(): boolean {
+  disableUpdateBtn (): boolean {
     return _.isEqual(this.model, this.cachedModel);
   }
 
