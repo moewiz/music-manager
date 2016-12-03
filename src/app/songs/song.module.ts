@@ -15,8 +15,7 @@ import { CommonModule } from "@angular/common";
   declarations: [
     SongsComponent,
     AddNewSongComponent
-  ],
-  providers: []
+  ]
 })
 export class SongModule {
 }
