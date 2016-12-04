@@ -1,7 +1,6 @@
-import { Song } from "../songs/song";
 export class Playlist {
   name: string;
-  songs: Song[];
+  songs: string[];
 
   constructor (values: Object = {}) {
     Object.assign(this, values);
