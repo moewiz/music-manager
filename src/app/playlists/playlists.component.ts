@@ -14,7 +14,7 @@ import { SongService } from "../songs/song.service";
 export class PlaylistsComponent implements OnInit {
   playlists: Playlist[] = [];
   songs: Song[] = [];
-  playlistSelected: Playlist = new Playlist();
+  playlistSelected: Playlist[] = [];
 
   constructor(private playlistService: PlaylistService, private songService: SongService) {
   }
@@ -23,18 +23,43 @@ export class PlaylistsComponent implements OnInit {
     this.getPlaylists();
   }
 
-  havePlaylistSelected(): boolean {
-    return _.get(this.playlistSelected, 'name', false);
+  onSelectOne(playlist: Playlist) {
+    this.playlistSelected.length = 0;
+    this.playlistSelected.push(playlist);
+
+    if (this.isShowListSongs()) {
+      this.songService.getSongsForPlaylist(this.playlistSelected[0].songs).then((songs: Song[]) => this.songs = songs);
+    } else {
+      this.songs.length = 0;
+    }
   }
 
-  onSelect(playlist: Playlist) {
-    this.playlistSelected = playlist;
-    this.songService.getSongsForPlaylist(this.playlistSelected.songs).then((songs: Song[]) => this.songs = songs);
+  onDelete(playlist, event) {
+    this.onSelectOne(playlist);
+
+    if (confirm("Are you sure you want to delete this playlist?")) {
+      this.playlistService.deletePlaylists(playlist);
+      this.playlistSelected.length = 0;
+    }
+
+    event.stopPropagation();
+  }
+
+  onEdit(playlist: Playlist, event) {
+    event.stopPropagation();
   }
 
   getPlaylists(): void {
     this.playlistService.getPlaylists().then((playlists: Playlist[]) => {
       this.playlists = playlists;
     });
+  }
+
+  isHighlightPlaylist(playlist: Playlist) {
+    return _.find(this.playlistSelected, playlist);
+  }
+
+  isShowListSongs() {
+    return this.playlistSelected.length === 1
   }
 }

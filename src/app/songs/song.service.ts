@@ -15,15 +15,6 @@ export class SongService {
   }
 
   getSongsForPlaylist(listSongName: string[]): Promise<Song[]> {
-    // let songs: Song[] = [];
-    // _.forEach(listSongName, (songName) => {
-    //   _this.getSongByName(songName).then((song: Song) => {
-    //     if (_.isObject(song)) {
-    //       songs.push(song);
-    //     }
-    //   });
-    // });
-    // return songs;
     return Promise.resolve(SONGS).then((songs: Song[]) => {
       let songsForPlaylist: Song[] = [];
       _.forEach(listSongName, (songName) => {
