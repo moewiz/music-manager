@@ -4,6 +4,7 @@ import { Song } from "../songs/song";
 import { Router, ActivatedRoute, Params } from "@angular/router";
 import 'rxjs/add/operator/switchMap';
 import * as _ from 'lodash';
+import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 
 @Component({
   selector: 'app-add-new-song',
@@ -21,16 +22,20 @@ import * as _ from 'lodash';
 })
 export class AddNewSongComponent implements OnInit {
   title: string = "Add Song";
-  model: Song = new Song();
-  cachedModel: Song = new Song();
   flagEdit: boolean = false;
+  cachedData: Song = new Song();
+  songForm: FormGroup = new FormGroup({
+    name: new FormControl(),
+    artist: new FormControl()
+  });
 
-  constructor (private songService: SongService,
-               private router: Router,
-               private route: ActivatedRoute) {
+  constructor(private songService: SongService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private fb: FormBuilder) {
   }
 
-  ngOnInit () {
+  ngOnInit() {
     let nameParam = this.route.snapshot.params['name'];
 
     if (nameParam) {
@@ -40,31 +45,43 @@ export class AddNewSongComponent implements OnInit {
       this.route.params
         .switchMap((params: Params) => this.songService.getSongByName(params['name']))
         .subscribe((song: Song) => {
-          this.model = _.cloneDeep(song);
-          this.cachedModel = _.cloneDeep(song);
+          this.cachedData = song;
+          this.songForm = this.fb.group({
+            name: [song.name, Validators.compose([Validators.required, Validators.maxLength(24)])],
+            artist: [song.artist, Validators.maxLength(32)]
+          });
         });
     } else {
       this.flagEdit = false;
+      this.songForm = this.fb.group({
+        name: ['', Validators.compose([Validators.required, Validators.maxLength(24)])],
+        artist: ['', Validators.maxLength(32)]
+      });
     }
 
   }
 
-  onAddSong () {
-    this.songService.addSong(this.model);
+  submitForm(value: any) {
+    if (this.flagEdit) {
+      this.songService.updateSong(new Song(value));
+    } else {
+      this.songService.addSong(new Song(value));
+    }
     this.router.navigate(['/songs']);
   }
 
-  onUpdateSong () {
-    this.songService.updateSong(this.model);
-    this.router.navigate(['/songs']);
+  onReset() {
+    (<FormGroup>this.songForm)
+      .setValue(this.cachedData, {onlySelf: true});
+    // this.songForm.controls['name'].reset(this.cachedData.name);
+    // this.songForm.controls['artist'].reset(this.cachedData.artist);
+    // be the same
+    // this.songForm.controls['name'].setValue(this.cachedData.name);
+    // this.songForm.controls['artist'].setValue(this.cachedData.artist);
   }
 
-  onCancel () {
-    this.router.navigate(['/songs'])
-  }
-
-  disableUpdateBtn (): boolean {
-    return _.isEqual(this.model, this.cachedModel);
+  disableSubmitBtn(): boolean {
+    return _.isEqual(new Song(this.songForm.value), this.cachedData);
   }
 
 }

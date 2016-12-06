@@ -4,6 +4,7 @@ import { PlaylistService } from "./playlist.service";
 import * as _ from 'lodash';
 import { Song } from "../songs/song";
 import { SongService } from "../songs/song.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-playlists',
@@ -16,7 +17,9 @@ export class PlaylistsComponent implements OnInit {
   songs: Song[] = [];
   playlistSelected: Playlist[] = [];
 
-  constructor(private playlistService: PlaylistService, private songService: SongService) {
+  constructor(private playlistService: PlaylistService,
+              private songService: SongService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -46,6 +49,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   onEdit(playlist: Playlist, event) {
+    this.router.navigate(['/playlists/edit', playlist.name]);
     event.stopPropagation();
   }
 

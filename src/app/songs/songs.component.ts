@@ -29,7 +29,9 @@ export class SongsComponent implements OnInit {
   }
 
   deleteSong(song: Song): void {
-    this.songService.deleteSong(song);
+    if (confirm("Are you sure you want to delete this song?")) {
+      this.songService.deleteSong(song);
+    }
   }
 
 }

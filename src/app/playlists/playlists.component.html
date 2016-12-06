@@ -1,13 +1,16 @@
 <div class="container">
+  <div class="col-md-12">
+    <button [routerLink]="['/playlists/new']" class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span></button>
+  </div>
   <div class="col-md-4">
     <ul class="list-group">
       <li *ngFor="let playlist of playlists" [class.active]="isHighlightPlaylist(playlist)" class="list-group-item"
           (click)="onSelectOne(playlist)">
         <span class="pull-left">{{ playlist.name }}</span>
-        <button class="pull-right btn btn-danger" (click)="onDelete(playlist, $event)"><span
-          class="glyphicon glyphicon-trash"></span></button>
-        <button class="pull-right btn btn-warning" (click)="onEdit(playlist, $event)"><span
-          class="glyphicon glyphicon-pencil"></span></button>
+        <button class="pull-right btn btn-danger" (click)="onDelete(playlist, $event)">
+          <span class="glyphicon glyphicon-trash"></span></button>
+        <button class="pull-right btn btn-warning" (click)="onEdit(playlist, $event)">
+          <span class="glyphicon glyphicon-edit"></span></button>
         <div class="clearfix"></div>
       </li>
     </ul>

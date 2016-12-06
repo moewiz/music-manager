@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="row">
+    <h3 class="col-md-4">
+      {{ title }}
+    </h3>
+    <div class="col-md-8 text-right">
+      <button [routerLink]="['/playlists']" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span>
+      </button>
+      <button type="submit" form="playlistForm" class="btn btn-primary"
+              [disabled]="!playlistForm.valid || disableSubmitBtn()">
+        <span class="glyphicon {{ flagEdit ? 'glyphicon-edit' : 'glyphicon glyphicon-floppy-disk'}}"></span>
+      </button>
+    </div>
+
+    <div class="col-md-12">
+      <form #playlistForm="ngForm" (ngSubmit)="onSubmit()" id="playlistForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <!--<input type="text" id="name" class="form-control" value="{{ model.name }}" name="name" [disabled]="flagEdit"-->
+          <!--[(ngModel)]="model.name" #name="ngModel" autocomplete="off" required/>-->
+          <input type="text" id="name" class="form-control" value="{{ model.name }}" name="name"
+                 [(ngModel)]="model.name" #name="ngModel" autocomplete="off" required/>
+          <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+            Playlist name is required
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-offset-3 col-md-6">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let song of songs">
+          <div class="col-md-9 pull-left">
+            <p>{{ song.name }}</p>
+            <p>{{ song.artist }}</p>
+          </div>
+          <div class="col-md-3 pull-right">
+            <button class="btn btn-default" *ngIf="!isSelected(song)" (click)="onSelectSong(song)" style="color: yellowgreen;"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn btn-default" *ngIf="isSelected(song)" (click)="onRemoveSong(song)" style="color: indianred;"><span class="glyphicon glyphicon-minus"></span></button>
+          </div>
+          <div class="clearfix"></div>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-offset-3"></div>
+
+  </div>
+</div>

@@ -1,17 +1,22 @@
 import { NgModule } from "@angular/core";
 import { PlaylistRoutingModule } from "./playlist.routes";
 import { PlaylistsComponent } from "./playlists.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { PlaylistFormComponent } from "./playlist-form.component";
 
 @NgModule({
   imports: [
     PlaylistRoutingModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [],
-  declarations: [PlaylistsComponent]
+  declarations: [
+    PlaylistsComponent,
+    PlaylistFormComponent
+  ]
 })
 export class PlaylistModule {
 }
