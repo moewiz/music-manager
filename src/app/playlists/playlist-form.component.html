@@ -8,7 +8,7 @@
       </button>
       <button type="submit" form="playlistForm" class="btn btn-primary"
               [disabled]="!playlistForm.valid || disableSubmitBtn()">
-        <span class="glyphicon {{ flagEdit ? 'glyphicon-edit' : 'glyphicon glyphicon-floppy-disk'}}"></span>
+        <span class="glyphicon glyphicon-floppy-disk"></span>
       </button>
     </div>
 
@@ -19,7 +19,7 @@
           <!--<input type="text" id="name" class="form-control" value="{{ model.name }}" name="name" [disabled]="flagEdit"-->
           <!--[(ngModel)]="model.name" #name="ngModel" autocomplete="off" required/>-->
           <input type="text" id="name" class="form-control" value="{{ model.name }}" name="name"
-                 [(ngModel)]="model.name" #name="ngModel" autocomplete="off" required/>
+                 [readonly]="flagEdit" [(ngModel)]="model.name" #name="ngModel" autocomplete="off" required/>
           <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
             Playlist name is required
           </div>

@@ -9,7 +9,7 @@
         </button>
         <button type="submit" form="songForm" class="btn btn-primary"
                 [disabled]="!songForm.valid || disableSubmitBtn()">
-          <span class="glyphicon {{ flagEdit ? 'glyphicon-edit' : 'glyphicon glyphicon-floppy-disk'}}"></span>
+          <span class="glyphicon glyphicon-floppy-disk"></span>
         </button>
         <button class="btn btn-default" (click)="onReset()"><span class="glyphicon glyphicon-repeat"></span></button>
       </div>
@@ -20,7 +20,7 @@
              [ngClass]="{'has-error': !songForm.controls['name'].valid && songForm.controls['name'].touched}">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" formControlName="name"
-                 autocomplete="off"/>
+                 autocomplete="off" [readonly]="flagEdit"/>
           <div *ngIf="songForm.controls['name'].hasError('required') && songForm.controls['name'].touched"
                class="alert alert-danger">Song name is required
           </div>
