@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { SongService } from './song.service';
 import { Song } from './song';
 import { Router } from "@angular/router";
+import { FormControl } from '@angular/forms';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'songs',
@@ -11,6 +15,8 @@ import { Router } from "@angular/router";
 })
 export class SongsComponent implements OnInit {
   title: string = "Songs";
+  items: string[];
+  term = new FormControl();
   songs: Song[];
 
   constructor(private songService: SongService, private router: Router) {
@@ -18,6 +24,10 @@ export class SongsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSongs();
+    this.items = this.term.valueChanges
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .switchMap(term => this.songService.search(term));
   }
 
   getSongs(): void {
