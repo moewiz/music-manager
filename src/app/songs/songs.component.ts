@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'songs',
@@ -15,7 +16,8 @@ import 'rxjs/add/operator/switchMap';
 })
 export class SongsComponent implements OnInit {
   title: string = "Songs";
-  items: string[];
+  data: Observable<Song[]>;
+  items: Array<Song> = [];
   term = new FormControl();
   songs: Song[];
 
@@ -24,14 +26,44 @@ export class SongsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSongs();
-    this.items = this.term.valueChanges
-      .debounceTime(400)
-      .distinctUntilChanged()
-      .switchMap(term => this.songService.search(term));
+
+    this.data = new Observable(observer => {
+      setTimeout(function () {
+        observer.next(new Song({ name: "A" }));
+      }, 1000);
+
+      setTimeout(function () {
+        observer.next(new Song({ name: "B" }));
+      }, 2000);
+
+      setTimeout(function () {
+        observer.complete();
+      }, 3000);
+    });
+    // this.data = this.term.valueChanges
+    //   .debounceTime(400)
+    //   .distinctUntilChanged()
+    //   .switchMap(term => 'Observable<Song[]>');
+
+    this.data.subscribe(
+      (song: Song) => this.items.push(song),
+      error => console.log(error),
+      () => console.log('finished')
+    );
+    // this.term.valueChanges
+    //   .debounceTime(400)
+    //   .distinctUntilChanged()
+    //   .switchMap(term => this.songService.searchSongName(term))
+    //   .subscribe(songs => this.items = songs);
   }
 
   getSongs(): void {
-    this.songService.getSongs().then((songs: Song[]) => this.songs = songs);
+    this.songService.getSongsV2().subscribe(
+      (songs: Song[]) => this.songs = songs,
+      error => console.log(error),
+      () => console.log('finished getSongsV2()')
+    );
+    // this.songService.getSongs().then((songs: Song[]) => this.songs = songs);
   }
 
   editSong(song): void {

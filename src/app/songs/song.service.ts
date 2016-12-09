@@ -4,20 +4,31 @@ import { Song } from './song';
 import { SONGS } from './mock-songs';
 import * as _ from 'lodash';
 import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SongService {
 
-  constructor(private jsonp: Jsonp) { }
+  // searchSongName(term: string): Promise<Song[]> {
+  //     if (_.isEmpty(term.trim())) {
+  //         return Promise.resolve([]);
+  //     }
+  //     return this.getSongs().then((songs: Song[]) => {
+  //         let reg = new RegExp(term, 'i');
 
-  search(term: string) {
-    var search = new URLSearchParams();
-    search.set('action', 'opensearch');
-    search.set('search', term);
-    search.set('format', 'json');
-    return this.jsonp
-      .get('http://en.wikipedia.org/w/api.php?callback=JSONP_CALLBACK', { search })
-      .map(response => response.json()[1]);
+  //         let result = songs.filter((song: Song) => {
+  //             return song.name.match(reg) && song.name.match(reg).length;
+  //         });
+
+  //         return result;
+  //     });
+  // }
+
+  getSongsV2(): Observable<Song[]> {
+    return new Observable(observer => {
+      observer.next(SONGS);
+      observer.complete();
+    });
   }
 
   getSongByName(name: string): Promise<Song> {

@@ -8,7 +8,7 @@ import { AppRoutingModule } from "./app-routing.module";
 
 @NgModule({
   imports: [
-    BrowserModule, // rootModule uses BrowserModule and others module use CommonModule
+    BrowserModule, // rootModule import BrowserModule and others module import CommonModule (to uses ngIf, ...)
     FormsModule,
     HttpModule,
     AppRoutingModule,
