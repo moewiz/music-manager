@@ -9,34 +9,36 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class SongService {
 
-  // searchSongName(term: string): Promise<Song[]> {
-  //     if (_.isEmpty(term.trim())) {
-  //         return Promise.resolve([]);
-  //     }
-  //     return this.getSongs().then((songs: Song[]) => {
-  //         let reg = new RegExp(term, 'i');
+  searchSongName(term: string): Observable<Song[]> {
+    if (_.isEmpty(term.trim())) {
+      return Observable.create(observer => {
+        observer.next([]);
+        observer.complete();
+      });
+    }
 
-  //         let result = songs.filter((song: Song) => {
-  //             return song.name.match(reg) && song.name.match(reg).length;
-  //         });
+    this.getSongs().subscribe(
+      (songs: Song[]) => {
+        let reg = new RegExp(term, 'i');
+        let data = songs.filter(song => song.name.match(reg) && song.name.match(reg).length);
+        return Observable.create(obs => {
+          obs.next(data);
+          obs.complete();
+        })
+      },
+      error => console.error(error));
+  }
 
-  //         return result;
-  //     });
-  // }
-
-  getSongsV2(): Observable<Song[]> {
+  getSongs(): Observable<Song[]> {
     return new Observable(observer => {
       observer.next(SONGS);
+      observer.error("Error when get songs");
       observer.complete();
     });
   }
 
   getSongByName(name: string): Promise<Song> {
     return Promise.resolve(SONGS).then((songs: Song[]) => _.find(songs, { name: name }));
-  }
-
-  getSongs(): Promise<Song[]> {
-    return Promise.resolve(SONGS);
   }
 
   getSongsForPlaylist(listSongName: string[]): Promise<Song[]> {
@@ -57,7 +59,7 @@ export class SongService {
   }
 
   updateSong(song: Song) {
-    this.getSongs().then((songs: Song[]) => {
+    this.getSongs().subscribe((songs: Song[]) => {
       _.forEach(songs, (value, index, list) => {
         if (_.isEqual(value.name, song.name)) {
           list[index] = song;
