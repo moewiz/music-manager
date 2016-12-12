@@ -51,18 +51,11 @@ export class SongService {
     });
   }
 
-  deleteSong(_song: Song) {
-    Promise.resolve(SONGS).then((songs: Song[]) => _.remove(songs, song => _.isEqual(song, _song)));
-  }
-
-  deleteMultiSongs(_songs: Song[]) {
-    Observable.create(observer => {
-      observer.next(SONGS);
-      observer.complete();
-    }).subscribe((songs: Song[]) => {
-      _.forEach(_songs, (_song: Song) => {
-        _.remove(songs, (song: Song) => _.isEqual(song, _song));
-      });
-    });
+  deleteSongs(_songs: Song[]): Promise<Song[]> {
+    return Promise.resolve(SONGS).then((songs: Song[]) =>
+      _.forEach(_songs, (_song: Song) =>
+        _.remove(songs, (song: Song) => _.isEqual(song, _song))
+      )
+    );
   }
 }

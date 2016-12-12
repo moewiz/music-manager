@@ -6,7 +6,7 @@
     <div class="col-md-6 text-right">
       <button class="btn btn-success" [routerLink]="['/songs/new']"><span class="glyphicon glyphicon-plus"></span></button>
       <button class="btn btn-danger" (click)="deleteMultiSongs()" [disabled]="!isEnableDeleteMultiSongsBtn"><span class="glyphicon glyphicon-trash"></span></button>
-      <input type="text" [formControl]="term" />
+    <input type="text" [formControl]="term" />
     </div>
   </div>
 
@@ -14,7 +14,7 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th><input type="checkbox" (click)="toggleAllSongs()" [checked]="isCheckAllSongs"></th>
+          <th (click)="toggleAllSongs()"><input type="checkbox" [checked]="isCheckAllSongs"></th>
           <th>Name</th>
           <th>Artist</th>
           <th>Action</th>
@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let song of songs">
-          <td><input type="checkbox" (click)="toggleSong(song)" [checked]="song.checked"></td>
+          <td (click)="toggleSong(song)"><input type="checkbox" [checked]="song.checked"></td>
           <td>{{ song.name }}</td>
           <td>{{ song.artist }}</td>
           <td>
