@@ -23,7 +23,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
 export class AddNewSongComponent implements OnInit {
   title: string = "Add Song";
   flagEdit: boolean = false;
-  cachedData: Song = new Song();
+  cachedData: Object = {};
   songForm: FormGroup = new FormGroup({
     name: new FormControl(),
     artist: new FormControl()
@@ -45,7 +45,10 @@ export class AddNewSongComponent implements OnInit {
       this.route.params
         .switchMap((params: Params) => this.songService.getSongByName(params['name']))
         .subscribe((song: Song) => {
-          this.cachedData = song;
+          this.cachedData = {
+            name: song.name,
+            artist: song.artist
+          };
           this.songForm = this.fb.group({
             name: [song.name, Validators.compose([Validators.required, Validators.maxLength(24)])],
             artist: [song.artist, Validators.maxLength(32)]
