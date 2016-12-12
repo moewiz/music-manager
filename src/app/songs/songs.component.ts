@@ -33,7 +33,7 @@ export class SongsComponent implements OnInit {
         this.term.valueChanges
             .debounceTime(300)
             .distinctUntilChanged()
-            .subscribe(term => this.searchKey = term);
+            .subscribe(term => this.searchKey = term.trim());
     }
 
     getSongs(): void {

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { PlaylistFormComponent } from "./playlist-form.component";
 import { JsonpModule } from '@angular/http';
+import { MySharedModule } from '../my-shared-module/my-shared.module';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { JsonpModule } from '@angular/http';
     CommonModule,
     FormsModule,
     JsonpModule,
+    MySharedModule,
     ReactiveFormsModule
   ],
   exports: [],

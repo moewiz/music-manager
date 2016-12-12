@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app-routing.module";
+import { MySharedModule } from './my-shared-module/my-shared.module';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { AppRoutingModule } from "./app-routing.module";
     FormsModule,
     HttpModule,
     AppRoutingModule,
+    MySharedModule
     // SongModule
   ],
   declarations: [AppComponent],
