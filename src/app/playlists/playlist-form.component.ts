@@ -65,7 +65,7 @@ export class PlaylistFormComponent implements OnInit {
       this.flagEdit = false;
     }
 
-    this.songService.getSongs().then((songs: Song[]) => {
+    this.songService.getSongs().subscribe((songs: Song[]) => {
       this.songs = songs
     });
   }
