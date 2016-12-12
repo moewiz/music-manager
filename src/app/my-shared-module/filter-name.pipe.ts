@@ -6,9 +6,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterNamePipe implements PipeTransform {
 
-  transform(list: any, searchKey?: string): any {
+  transform(list: any, searchKey: string, key: string = 'name'): any {
     var reg = new RegExp(searchKey, 'i');
-    return list.filter(item => item.name.match(reg));
+    return list.filter(item => item[key].match(reg));
   }
 
 }
