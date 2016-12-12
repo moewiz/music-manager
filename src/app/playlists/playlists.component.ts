@@ -5,6 +5,10 @@ import * as _ from 'lodash';
 import { Song } from "../songs/song";
 import { SongService } from "../songs/song.service";
 import { Router } from "@angular/router";
+import { FormControl } from '@angular/forms';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-playlists',
@@ -16,6 +20,8 @@ export class PlaylistsComponent implements OnInit {
   playlists: Playlist[] = [];
   songs: Song[] = [];
   playlistSelected: Playlist[] = [];
+  term: FormControl = new FormControl();
+  searchKey: string;
 
   constructor(private playlistService: PlaylistService,
               private songService: SongService,
@@ -24,6 +30,10 @@ export class PlaylistsComponent implements OnInit {
 
   ngOnInit() {
     this.getPlaylists();
+    this.term.valueChanges
+    .debounceTime(300)
+    .distinctUntilChanged()
+    .subscribe(term => this.searchKey = term.trim());
   }
 
   onSelectOne(playlist: Playlist) {

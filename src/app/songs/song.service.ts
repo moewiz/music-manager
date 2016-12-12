@@ -9,30 +9,9 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class SongService {
 
-  searchSongName(term: string): Observable<Song[]> {
-    if (_.isEmpty(term.trim())) {
-      return Observable.create(observer => {
-        observer.next([]);
-        observer.complete();
-      });
-    }
-
-    this.getSongs().subscribe(
-      (songs: Song[]) => {
-        let reg = new RegExp(term, 'i');
-        let data = songs.filter(song => song.name.match(reg) && song.name.match(reg).length);
-        return Observable.create(obs => {
-          obs.next(data);
-          obs.complete();
-        })
-      },
-      error => console.error(error));
-  }
-
   getSongs(): Observable<Song[]> {
     return new Observable(observer => {
       observer.next(SONGS);
-      observer.error("Error when get songs");
       observer.complete();
     });
   }
@@ -68,8 +47,11 @@ export class SongService {
     });
   }
 
-  deleteSong(_song: Song) {
-    Promise.resolve(SONGS).then((songs: Song[]) => _.remove(songs, song => _.isEqual(song, _song)));
+  deleteSongs(_songs: Song[]): Promise<Song[]> {
+    return Promise.resolve(SONGS).then((songs: Song[]) =>
+      _.forEach(_songs, (_song: Song) =>
+        _.remove(songs, (song: Song) => _.isEqual(song, _song))
+      )
+    );
   }
-
 }
