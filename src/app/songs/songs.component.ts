@@ -21,7 +21,8 @@ export class SongsComponent implements OnInit {
     songs: Song[];
     isCheckAllSongs: boolean = false;
     isEnableDeleteMultiSongsBtn: boolean;
-    searchKey: string;
+    searchTerm: string;
+    searchKey: string = 'name';
     songsToDelete: Song[] = [];
 
     constructor(private songService: SongService, private router: Router) {
@@ -32,7 +33,7 @@ export class SongsComponent implements OnInit {
         this.term.valueChanges
             .debounceTime(300)
             .distinctUntilChanged()
-            .subscribe(term => this.searchKey = term.trim());
+            .subscribe(term => this.searchTerm = term.trim());
     }
 
     getSongs(): void {
@@ -121,4 +122,12 @@ export class SongsComponent implements OnInit {
         this.songsToDelete.length = 0;
         this.songsToDelete.push(song);
     }
+
+    searchByName() {
+        this.searchKey = 'name';
+    }
+
+    searchByArtist() {
+        this.searchKey = 'artist';
+    } 
 }
