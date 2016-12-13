@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class SongService {
 
-  getSongsV2(): Observable<Song[]> {
+  getSongs(): Observable<Song[]> {
     return new Observable(observer => {
       observer.next(SONGS);
       observer.complete();
@@ -18,10 +18,6 @@ export class SongService {
 
   getSongByName(name: string): Promise<Song> {
     return Promise.resolve(SONGS).then((songs: Song[]) => _.find(songs, { name: name }));
-  }
-
-  getSongs(): Promise<Song[]> {
-    return Promise.resolve(SONGS);
   }
 
   getSongsForPlaylist(listSongName: string[]): Promise<Song[]> {
@@ -42,7 +38,7 @@ export class SongService {
   }
 
   updateSong(song: Song) {
-    this.getSongs().then((songs: Song[]) => {
+    this.getSongs().subscribe((songs: Song[]) => {
       _.forEach(songs, (value, index, list) => {
         if (_.isEqual(value.name, song.name)) {
           list[index] = song;
