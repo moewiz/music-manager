@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app-routing.module";
+import { HomeComponent } from './home.component';
 
 @NgModule({
   imports: [
@@ -14,7 +14,10 @@ import { AppRoutingModule } from "./app-routing.module";
     AppRoutingModule,
     // SongModule
   ],
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent
+  ],
   providers: [], // shared modules, shared services
   bootstrap: [AppComponent]
 })
