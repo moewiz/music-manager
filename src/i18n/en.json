@@ -1,0 +1,21 @@
+{
+  "songs": "Songs",
+  "playlists": "Playlists",
+  "manageSongs": "Manage Songs",
+  "managePlaylists": "Manage Playlists",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "songName": "Name",
+  "artist": "Artist",
+  "actions": "Actions",
+  "addSong": "Add song",
+  "editSong": "Edit song",
+  "songNameRequired": "Song name is required",
+  "songNameTooLong": "Song name is too long",
+  "artistNameTooLong": "Artist name is too long",
+  "placeHolder": "Search for ...",
+  "headerDeleteSong": "Delete song",
+  "headerDeleteMultiSongs": "Delete multiple songs",
+  "confirmDeleteMultiSongs": "Are you sure you want to delete chosen song(s)?",
+  "confirmDeleteSong": "Are you sure you want to delete this song?"
+}

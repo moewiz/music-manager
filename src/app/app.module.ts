@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from "./app-routing.module";
 import { HomeComponent } from './home.component';
+import { TranslateModule } from 'ng2-translate';
 
 @NgModule({
   imports: [
@@ -12,13 +13,13 @@ import { HomeComponent } from './home.component';
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    // SongModule
+    TranslateModule.forRoot(),
   ],
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
   ],
-  providers: [], // shared modules, shared services
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

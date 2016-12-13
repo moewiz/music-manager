@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { JsonpModule } from '@angular/http';
 import { MySharedModule } from '../my-shared-module/my-shared.module';
+import { TranslateModule } from 'ng2-translate';
 
 @NgModule({
   imports: [
@@ -13,8 +14,9 @@ import { MySharedModule } from '../my-shared-module/my-shared.module';
     CommonModule,
     FormsModule,
     JsonpModule,
+    ReactiveFormsModule,
     MySharedModule,
-    ReactiveFormsModule
+    TranslateModule
   ],
   exports: [],
   declarations: [

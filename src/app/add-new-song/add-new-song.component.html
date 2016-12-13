@@ -2,13 +2,12 @@
   <div class="row">
     <h3 class="col-md-12">
       <h3 class="col-md-4">
-        {{ title }}
+        {{ title | translate }}
       </h3>
       <div class="col-md-8 text-right">
         <button [routerLink]="['/songs']" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span>
         </button>
-        <button type="submit" form="songForm" class="btn btn-primary"
-                [disabled]="!songForm.valid || disableSubmitBtn()">
+        <button type="submit" form="songForm" class="btn btn-primary" [disabled]="!songForm.valid || disableSubmitBtn()">
           <span class="glyphicon glyphicon-floppy-disk"></span>
         </button>
         <button class="btn btn-default" (click)="onReset()"><span class="glyphicon glyphicon-repeat"></span></button>
@@ -16,26 +15,19 @@
     </h3>
     <div class="col-md-12">
       <form [formGroup]="songForm" (ngSubmit)="submitForm(songForm.value)" id="songForm">
-        <div class="form-group"
-             [ngClass]="{'has-error': !songForm.controls['name'].valid && songForm.controls['name'].touched}">
-          <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" formControlName="name"
-                 autocomplete="off" [readonly]="flagEdit"/>
-          <div *ngIf="songForm.controls['name'].hasError('required') && songForm.controls['name'].touched"
-               class="alert alert-danger">Song name is required
+        <div class="form-group" [ngClass]="{'has-error': !songForm.controls['name'].valid && songForm.controls['name'].touched}">
+          <label for="name">{{ 'songName' | translate }}</label>
+          <input type="text" class="form-control" id="name" formControlName="name" autocomplete="off" [readonly]="flagEdit" />
+          <div *ngIf="songForm.controls['name'].hasError('required') && songForm.controls['name'].touched" class="alert alert-danger">{{ 'songNameRequired' | translate }}
           </div>
-          <div *ngIf="songForm.controls['name'].hasError('maxlength') && songForm.controls['name'].touched"
-               class="alert alert-danger">Song name cannot be more than 24 characters long
+          <div *ngIf="songForm.controls['name'].hasError('maxlength') && songForm.controls['name'].touched" class="alert alert-danger">{{ 'songNameTooLong' | translate }}
           </div>
         </div>
-        <div class="form-group"
-             [ngClass]="{'has-error': !songForm.controls['artist'].valid && songForm.controls['artist'].touched}">
-          <label for="artist">Artist</label>
-          <input type="text" class="form-control" formControlName="artist" id="artist"
-                 autocomplete="off"/>
+        <div class="form-group" [ngClass]="{'has-error': !songForm.controls['artist'].valid && songForm.controls['artist'].touched}">
+          <label for="artist">{{ 'artist' | translate }}</label>
+          <input type="text" class="form-control" formControlName="artist" id="artist" autocomplete="off" />
         </div>
-        <div *ngIf="songForm.controls['artist'].hasError('maxlength') && songForm.controls['artist'].touched"
-             class="alert alert-danger">Artist cannot be more than 32 characters long
+        <div *ngIf="songForm.controls['artist'].hasError('maxlength') && songForm.controls['artist'].touched" class="alert alert-danger">{{ 'artistNameTooLong' | translate }}
         </div>
       </form>
     </div>

@@ -6,7 +6,6 @@ import { CommonModule } from "@angular/common";
 import { PlaylistFormComponent } from "./playlist-form.component";
 import { JsonpModule } from '@angular/http';
 import { MySharedModule } from '../my-shared-module/my-shared.module';
-
 @NgModule({
   imports: [
     PlaylistRoutingModule,

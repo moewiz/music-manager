@@ -1,7 +1,7 @@
 <div class="container">
   <div class="col-md-12">
     <div class="col-md-4">
-      <h3>{{ title }}</h3>
+      <h3>{{ title | translate }}</h3>
     </div>
     <div class="col-md-8 text-right form-inline">
       <div class="input-group">
@@ -9,7 +9,7 @@
           <button class="btn btn-default" [ngClass]="{active: searchKey === 'name'}" (click)="searchByName()"><span class="glyphicon glyphicon-music"></span></button>
           <button class="btn btn-default" [ngClass]="{active: searchKey === 'artist'}" (click)="searchByArtist()"><span class="glyphicon glyphicon-user"></span></button>
         </span>
-        <input type="text" class="form-control" [formControl]="term" placeholder="Search for...">
+        <input type="text" class="form-control" [formControl]="term" placeholder="{{ 'placeHolder' | translate }}">
       </div>
       <button class="btn btn-success" [routerLink]="['/songs/new']"><span class="glyphicon glyphicon-plus"></span></button>
       <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteMultiSongs" [disabled]="!isEnableDeleteMultiSongsBtn"><span class="glyphicon glyphicon-trash"></span></button>
@@ -21,9 +21,9 @@
       <thead>
         <tr>
           <th class="col-md-1" (click)="toggleAllSongs()"><input type="checkbox" [checked]="isCheckAllSongs"></th>
-          <th class="col-md-4">Name</th>
-          <th class="col-md-4">Artist</th>
-          <th class="col-md-3">Action</th>
+          <th class="col-md-4">{{ 'songName' | translate }}</th>
+          <th class="col-md-4">{{ 'artist' | translate }}</th>
+          <th class="col-md-3">{{ 'actions' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -44,11 +44,11 @@
 <div class="modal fade" id="confirmDeleteSong" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">Delete song</div>
-      <div class="modal-body">Are you sure you want to delete this song?</div>
+      <div class="modal-header"><h3>{{ 'headerDeleteSong' | translate }}</h3></div>
+      <div class="modal-body">{{ 'confirmDeleteSong' | translate }}</div>
       <div class="modal-footer">
         <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" (click)="deleteSong()" data-dismiss="modal">OK</button>
+        <button class="btn btn-primary" (click)="deleteSong()" data-dismiss="modal">{{ 'ok' | translate }}</button>
       </div>
     </div>
   </div>
@@ -57,11 +57,11 @@
 <div class="modal fade" id="confirmDeleteMultiSongs" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">Delete multiple songs</div>
-      <div class="modal-body">Are you sure you want to delete chosen song(s)?</div>
+      <div class="modal-header"><h3>{{ 'headerDeleteMultiSongs' | translate }}</h3></div>
+      <div class="modal-body">{{ 'confirmDeleteMultiSongs' | translate }}</div>
       <div class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" (click)="deleteMultiSongs()" data-dismiss="modal">OK</button>
+        <button class="btn btn-default" data-dismiss="modal">{{ 'cancel' | translate }}</button>
+        <button class="btn btn-primary" (click)="deleteMultiSongs()" data-dismiss="modal">{{ 'ok' | translate }}</button>
       </div>
     </div>
   </div>

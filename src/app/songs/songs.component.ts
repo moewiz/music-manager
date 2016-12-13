@@ -16,7 +16,7 @@ import * as _ from 'lodash';
     providers: [SongService]
 })
 export class SongsComponent implements OnInit {
-    title: string = "Songs";
+    title: string = 'manageSongs';
     term = new FormControl();
     songs: Song[];
     isCheckAllSongs: boolean = false;

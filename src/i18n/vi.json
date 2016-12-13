@@ -1,0 +1,21 @@
+{
+  "songs": "Bài hát",
+  "playlists": "Danh sách nhạc",
+  "manageSongs": "Quản lý bài hát",
+  "managePlaylists": "Quản lý danh sách",
+  "cancel": "Hủy",
+  "ok": "Đồng ý",
+  "songName": "Tên bài hát",
+  "artist": "Nghệ sỹ",
+  "actions": "Hành động",
+  "addSong": "Thêm bài hát",
+  "editSong": "Sửa bài hát",
+  "songNameRequired": "Tên bài hát không được bỏ trống",
+  "songNameTooLong": "Tên bài hát quá dài",
+  "artistNameTooLong": "Tên nghệ sỹ quá dài",
+  "placeHolder": "Tìm kiếm ...",
+  "headerDeleteSong": "Xóa bài hát",
+  "headerDeleteMultiSongs": "Xóa nhiều bài hát",
+  "confirmDeleteMultiSongs": "Bạn chắc chắn muốn xóa những bài hát đã chọn?",
+  "confirmDeleteSong": "Bạn chắc chắn muốn xóa bài hát này?"
+}

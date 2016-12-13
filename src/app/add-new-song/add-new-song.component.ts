@@ -21,7 +21,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
   providers: [SongService]
 })
 export class AddNewSongComponent implements OnInit {
-  title: string = "Add Song";
+  title: string = "addSong";
   flagEdit: boolean = false;
   cachedData: Object = {
     name: '',
@@ -42,7 +42,7 @@ export class AddNewSongComponent implements OnInit {
     let nameParam = this.route.snapshot.params['name'];
 
     if (nameParam) {
-      this.title = "Edit song";
+      this.title = "editSong";
       this.flagEdit = true;
 
       this.route.params
@@ -79,11 +79,6 @@ export class AddNewSongComponent implements OnInit {
   onReset() {
     (<FormGroup>this.songForm)
       .setValue(this.cachedData, {onlySelf: true});
-    // this.songForm.controls['name'].reset(this.cachedData.name);
-    // this.songForm.controls['artist'].reset(this.cachedData.artist);
-    // be the same
-    // this.songForm.controls['name'].setValue(this.cachedData.name);
-    // this.songForm.controls['artist'].setValue(this.cachedData.artist);
   }
 
   disableSubmitBtn(): boolean {
