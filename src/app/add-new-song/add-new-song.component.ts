@@ -23,7 +23,10 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
 export class AddNewSongComponent implements OnInit {
   title: string = "Add Song";
   flagEdit: boolean = false;
-  cachedData: Object = {};
+  cachedData: Object = {
+    name: '',
+    artist: ''
+  };
   songForm: FormGroup = new FormGroup({
     name: new FormControl(),
     artist: new FormControl()
