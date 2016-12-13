@@ -1,4 +1,6 @@
 {
+  "home": "Home",
+  "welcome": "Welcome to Music Manager",
   "songs": "Songs",
   "playlists": "Playlists",
   "manageSongs": "Manage Songs",

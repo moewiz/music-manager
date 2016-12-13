@@ -12,17 +12,20 @@ import { TranslateService } from 'ng2-translate';
       </div>
       <nav class="navbar navbar-inverse">
         <ul class="nav navbar-nav">
+          <li><a [routerLink]="['/']" routerLinkActive="active">{{ 'home' | translate }}</a></li>
           <li><a [routerLink]="['/songs']" routerLinkActive="active">{{ 'songs' | translate }}</a></li>
           <li><a [routerLink]="['/playlists']" routerLinkActive="active">{{ 'playlists' | translate }}</a></li>
         </ul>
       </nav>
       <router-outlet></router-outlet>
-      <div class="footer">
-        <div class="btn-group text-right">
+    </div>
+    <footer class="footer">
+      <div class="text-right">
+        <div class="btn-group">
           <button *ngFor="let lang of supportedLangs" (click)="selectLang(lang.value)" class="btn btn-default" [class.btn-primary]="isCurrentLang(lang.value)">{{ lang.display }}</button>
         </div>
       </div>
-    </div>
+    </footer>
   `,
   styles: [`  
     .navbar-nav li a {
@@ -30,6 +33,16 @@ import { TranslateService } from 'ng2-translate';
     }
     .navbar-nav li a.active {
       color: #fff !important;
+    }
+    footer.footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 60px;
+      background: #f5f5f5;
+    }
+    .btn-group {
+      margin: 13px;
     }
   `]
 })
