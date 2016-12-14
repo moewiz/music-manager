@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { URLSearchParams, Jsonp } from '@angular/http';
+import { Jsonp, Http, Response } from '@angular/http';
 import { Song } from './song';
 import { SONGS } from './mock-songs';
 import * as _ from 'lodash';
@@ -8,12 +8,12 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SongService {
+  private getAllSongsUrl = './app/api/songs.json';
+  constructor(private http: Http) { }
 
   getSongs(): Observable<Song[]> {
-    return new Observable(observer => {
-      observer.next(SONGS);
-      observer.complete();
-    });
+    return this.http.get(this.getAllSongsUrl)
+      .map((res: Response) => res.json());
   }
 
   getSongByName(name: string): Promise<Song> {
