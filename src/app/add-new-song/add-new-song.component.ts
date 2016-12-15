@@ -33,20 +33,20 @@ export class AddNewSongComponent implements OnInit {
   });
 
   constructor(private songService: SongService,
-              private router: Router,
-              private route: ActivatedRoute,
-              private fb: FormBuilder) {
+    private router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder) {
   }
 
   ngOnInit() {
-    let nameParam = this.route.snapshot.params['name'];
+    let nameParam = this.route.snapshot.params['id'];
 
     if (nameParam) {
       this.title = "editSong";
       this.flagEdit = true;
 
       this.route.params
-        .switchMap((params: Params) => this.songService.getSongByName(params['name']))
+        .switchMap((params: Params) => this.songService.getSongById(params['id']))
         .subscribe((song: Song) => {
           this.cachedData = {
             name: song.name,
@@ -69,16 +69,23 @@ export class AddNewSongComponent implements OnInit {
 
   submitForm(value: any) {
     if (this.flagEdit) {
-      this.songService.updateSong(new Song(value));
+      this.songService.updateSong(new Song(value)).subscribe(
+        res => console.log(res),
+        err => console.error(err),
+        () => this.router.navigate(['/songs'])
+      );
     } else {
-      this.songService.addSong(new Song(value));
+      this.songService.addSong(new Song(value)).subscribe(
+        song => console.log("Added song:", song),
+        err => console.error(err),
+        () => this.router.navigate(['/songs'])
+      );
     }
-    this.router.navigate(['/songs']);
   }
 
   onReset() {
     (<FormGroup>this.songForm)
-      .setValue(this.cachedData, {onlySelf: true});
+      .setValue(this.cachedData, { onlySelf: true });
   }
 
   disableSubmitBtn(): boolean {

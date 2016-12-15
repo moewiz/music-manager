@@ -1,23 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Jsonp, Http, Response } from '@angular/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Song } from './song';
 import { SONGS } from './mock-songs';
 import * as _ from 'lodash';
+
+import 'rxjs/add/observable/throw';
+
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SongService {
-  private getAllSongsUrl = './app/api/songs.json';
+  private getAllSongsUrl = 'http://localhost:3000/api/songs';
+  private addSongUrl = 'http://localhost:3000/api/songs';
+  private deleteSongUrl = 'http://localhost:3000/api/songs';
+
   constructor(private http: Http) { }
 
   getSongs(): Observable<Song[]> {
-    return this.http.get(this.getAllSongsUrl)
-      .map((res: Response) => res.json());
+    return this.http
+      .get(this.getAllSongsUrl)
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
-  getSongByName(name: string): Promise<Song> {
-    return Promise.resolve(SONGS).then((songs: Song[]) => _.find(songs, { name: name }));
+  getSongById(id: number): Observable<Song> {
+    return this.http
+      .get(this.getAllSongsUrl + '/' + id)
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   getSongsForPlaylist(listSongName: string[]): Promise<Song[]> {
@@ -34,24 +46,64 @@ export class SongService {
   }
 
   addSong(song: Song) {
-    Promise.resolve(SONGS).then((songs: Song[]) => songs.push(song));
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let requestBody = JSON.stringify(song);
+
+    return this.http
+      .post(this.addSongUrl, requestBody, options)
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   updateSong(song: Song) {
-    this.getSongs().subscribe((songs: Song[]) => {
-      _.forEach(songs, (value, index, list) => {
-        if (_.isEqual(value.name, song.name)) {
-          list[index] = song;
-        }
-      });
-    });
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let requestBody = JSON.stringify(song);
+    let id = song._id;
+
+    return this.http
+      .put(this.addSongUrl + '/' + id, requestBody, options)
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
-  deleteSongs(_songs: Song[]): Promise<Song[]> {
-    return Promise.resolve(SONGS).then((songs: Song[]) =>
-      _.forEach(_songs, (_song: Song) =>
-        _.remove(songs, (song: Song) => _.isEqual(song, _song))
-      )
-    );
+  deleteSong(id: number) {
+    let url = this.deleteSongUrl + '/' + id;
+    return this.http
+      .delete(url)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  deleteSongs(ids: number[]) {
+    console.log(ids);
+    // return Promise.resolve(SONGS).then((songs: Song[]) =>
+    //   _.forEach(_songs, (_song: Song) =>
+    //     _.remove(songs, (song: Song) => _.isEqual(song, _song))
+    //   )
+    // );
+  }
+
+  private extractData(res: Response) {
+    let body;
+    if (res.json()) {
+      body = res.json();
+    }
+    return body || {};
+  }
+
+  private handleError(error: Response | any) {
+    // In a real world app, we might use a remote logging infrastructure
+    let errMsg: string;
+    if (error instanceof Response) {
+      const body = error.json() || '';
+      const err = body.error || JSON.stringify(body);
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
   }
 }

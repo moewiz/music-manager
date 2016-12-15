@@ -6,7 +6,7 @@ import { NgModule } from "@angular/core";
 const songRoutes: Routes = [
   {path: '', component: SongsComponent},
   {path: 'new', component: AddNewSongComponent},
-  {path: 'edit/:name', component: AddNewSongComponent},
+  {path: 'edit/:id', component: AddNewSongComponent},
 ];
 
 @NgModule({
