@@ -23,6 +23,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms"
 export class AddNewSongComponent implements OnInit {
   title: string = "addSong";
   flagEdit: boolean = false;
+  id: number;
   cachedData: Object = {
     name: '',
     artist: ''
@@ -42,41 +43,52 @@ export class AddNewSongComponent implements OnInit {
     let nameParam = this.route.snapshot.params['id'];
 
     if (nameParam) {
-      this.title = "editSong";
-      this.flagEdit = true;
-
-      this.route.params
-        .switchMap((params: Params) => this.songService.getSongById(params['id']))
-        .subscribe((song: Song) => {
-          this.cachedData = {
-            name: song.name,
-            artist: song.artist
-          };
-          this.songForm = this.fb.group({
-            name: [song.name, Validators.compose([Validators.required, Validators.maxLength(24)])],
-            artist: [song.artist, Validators.maxLength(32)]
-          });
-        });
+      this.initEditForm();
     } else {
-      this.flagEdit = false;
-      this.songForm = this.fb.group({
-        name: ['', Validators.compose([Validators.required, Validators.maxLength(24)])],
-        artist: ['', Validators.maxLength(32)]
-      });
+      this.initAddForm();
     }
 
   }
 
+  initAddForm() {
+    this.flagEdit = false;
+    this.songForm = this.fb.group({
+      name: ['', Validators.compose([Validators.required, Validators.maxLength(24)])],
+      artist: ['', Validators.maxLength(32)]
+    });
+  }
+
+  initEditForm() {
+    this.title = "editSong";
+    this.flagEdit = true;
+
+    this.route.params
+      .switchMap((params: Params) => {
+        this.id = params['id'];
+        return this.songService.getSongById(params['id']);
+      })
+      .subscribe((song: Song) => {
+        this.cachedData = {
+          name: song.name,
+          artist: song.artist
+        };
+        this.songForm = this.fb.group({
+          name: [song.name, Validators.compose([Validators.required, Validators.maxLength(24)])],
+          artist: [song.artist, Validators.maxLength(32)]
+        });
+      });
+  }
+
   submitForm(value: any) {
     if (this.flagEdit) {
-      this.songService.updateSong(new Song(value)).subscribe(
-        res => console.log(res),
+      this.songService.updateSong(this.id, new Song(value)).subscribe(
+        song => console.log('Song updated: ', song),
         err => console.error(err),
         () => this.router.navigate(['/songs'])
       );
     } else {
       this.songService.addSong(new Song(value)).subscribe(
-        song => console.log("Added song:", song),
+        song => console.log("Song added:", song),
         err => console.error(err),
         () => this.router.navigate(['/songs'])
       );

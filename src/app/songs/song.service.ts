@@ -12,22 +12,20 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class SongService {
-  private getAllSongsUrl = 'http://localhost:3000/api/songs';
-  private addSongUrl = 'http://localhost:3000/api/songs';
-  private deleteSongUrl = 'http://localhost:3000/api/songs';
+  private baseUrl = 'http://localhost:3000/api/songs';
 
   constructor(private http: Http) { }
 
   getSongs(): Observable<Song[]> {
     return this.http
-      .get(this.getAllSongsUrl)
+      .get(this.baseUrl)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   getSongById(id: number): Observable<Song> {
     return this.http
-      .get(this.getAllSongsUrl + '/' + id)
+      .get(this.baseUrl + '/' + id)
       .map(this.extractData)
       .catch(this.handleError);
   }
@@ -51,25 +49,24 @@ export class SongService {
     let requestBody = JSON.stringify(song);
 
     return this.http
-      .post(this.addSongUrl, requestBody, options)
+      .post(this.baseUrl, requestBody, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  updateSong(song: Song) {
+  updateSong(id: number, song: Song) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
     let requestBody = JSON.stringify(song);
-    let id = song._id;
 
     return this.http
-      .put(this.addSongUrl + '/' + id, requestBody, options)
+      .put(this.baseUrl + '/' + id, requestBody, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   deleteSong(id: number) {
-    let url = this.deleteSongUrl + '/' + id;
+    let url = this.baseUrl + '/' + id;
     return this.http
       .delete(url)
       .map(this.extractData)
@@ -77,12 +74,15 @@ export class SongService {
   }
 
   deleteSongs(ids: number[]) {
-    console.log(ids);
-    // return Promise.resolve(SONGS).then((songs: Song[]) =>
-    //   _.forEach(_songs, (_song: Song) =>
-    //     _.remove(songs, (song: Song) => _.isEqual(song, _song))
-    //   )
-    // );
+    let options = new RequestOptions({
+      headers: new Headers({ 'Content-Type': 'application/json' })
+    });
+    let requestBody = JSON.stringify(ids);
+
+    return this.http
+      .put(this.baseUrl, requestBody, options)
+      .map(this.extractData)
+      .catch(this.handleError);
   }
 
   private extractData(res: Response) {

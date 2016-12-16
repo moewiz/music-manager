@@ -42,17 +42,13 @@ export class SongsComponent implements OnInit {
       error => console.log(error),
       () => {
         this.detectCheckAllSongs();
-        this.checkEnableDeleteMultiSongsBtn();
+        this.detectCheckEnableDeleteMultiSongsBtn();
       }
     );
   }
 
   detectCheckAllSongs() {
-    // if (this.songs.filter(song => song.checked).length === this.songs.length && this.songs.length !== 0) {
-    //   this.isCheckAllSongs = true;
-    // } else {
-    //   this.isCheckAllSongs = false;
-    // }
+    this.isCheckAllSongs = this.songsToDelete.length === this.songs.length;
   }
 
   editSong(song): void {
@@ -60,60 +56,66 @@ export class SongsComponent implements OnInit {
   }
 
   deleteSong() {
-    this.songService.deleteSong(this.songsToDelete[0]);
-      // .then((songs: Song[]) => {
-      //   console.log(songs);
-      //   this.getSongs();
-      // })
-      // .catch((err) => { console.log(err) });
+    this.songService.deleteSong(this.songsToDelete[0]).subscribe(
+      msg => console.log('Song deleted:', msg),
+      err => console.error(err),
+      () => {
+        this.getSongs();
+        this.songsToDelete.length = 0;
+      }
+    );
   }
 
   deleteMultiSongs() {
-    // this.songsToDelete = _.cloneDeep(this.songs.filter(song => song.checked).map(song => song._id));
-    // this.songService.deleteSongs(this.songsToDelete)
-      // .then((songs: Song[]) => {
-      //   console.log(songs);
-      //   this.getSongs();
-      // })
-      // .catch(err => console.log(err));
+    this.songService.deleteSongs(this.songsToDelete).subscribe(
+      msg => console.log('deleted songs:', msg),
+      err => console.error(err),
+      () => {
+        this.getSongs();
+        this.songsToDelete.length = 0;
+      }
+    );
   }
 
   toggleSong(song: Song) {
-    // song.checked = !song.checked;
-    // if (this.isCheckAllSongs) {
-    //   this.isCheckAllSongs = false;
-    // } else if (this.songs.filter(song => song.checked).length === this.songs.length && this.songs.length !== 0) {
-    //   this.isCheckAllSongs = true;
-    // } else {
-    //   this.isCheckAllSongs = false;
-    // }
-    // this.checkEnableDeleteMultiSongsBtn();
+    if (this.songsToDelete.length === 0) {
+      this.songsToDelete.push(song._id);
+    } else {
+      let index = this.songsToDelete.indexOf(song._id);
+      if (index !== -1) {
+        this.songsToDelete.splice(index, 1);
+      } else {
+        this.songsToDelete.push(song._id);
+      }
+    }
+    this.detectCheckAllSongs();
+    this.detectCheckEnableDeleteMultiSongsBtn();
+  }
+
+  isCheckedSong(song): boolean {
+    let index = this.songsToDelete.indexOf(song._id);
+    return index !== -1;
   }
 
   toggleAllSongs() {
     if (this.isCheckAllSongs) {
-      this.checkAllSongs(false);
+      this.songsToDelete.length = 0;
     } else {
-      this.checkAllSongs(true);
+      this.checkAllSongs();
+    }
+    this.detectCheckAllSongs();
+    this.detectCheckEnableDeleteMultiSongsBtn();
+  }
+
+  checkAllSongs() {
+    this.songsToDelete.length = 0;
+    for (let i = this.songs.length; i--;) {
+      this.songsToDelete.push(this.songs[i]._id);
     }
   }
 
-  checkAllSongs(_check: boolean) {
-    // _.forEach(this.songs, song => {
-    //   song.checked = _check;
-    // });
-    // this.isCheckAllSongs = _check;
-    // this.isEnableDeleteMultiSongsBtn = _check;
-  }
-
-  checkEnableDeleteMultiSongsBtn() {
-    // for (let i = this.songs.length - 1; i >= 0; i--) {
-    //   if (this.songs[i].checked) {
-    //     this.isEnableDeleteMultiSongsBtn = true;
-    //     return;
-    //   }
-    // }
-    // this.isEnableDeleteMultiSongsBtn = false;
+  detectCheckEnableDeleteMultiSongsBtn() {
+    this.isEnableDeleteMultiSongsBtn = this.songsToDelete.length ? true : false;
   }
 
   addSongToDelete(song: Song) {
