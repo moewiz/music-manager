@@ -17,7 +17,7 @@
       <form [formGroup]="songForm" (ngSubmit)="submitForm(songForm.value)" id="songForm">
         <div class="form-group" [ngClass]="{'has-error': !songForm.controls['name'].valid && songForm.controls['name'].touched}">
           <label for="name">{{ 'songName' | translate }}</label>
-          <input type="text" class="form-control" id="name" formControlName="name" autocomplete="off" [readonly]="flagEdit" />
+          <input type="text" class="form-control" id="name" formControlName="name" autocomplete="off" />
           <div *ngIf="songForm.controls['name'].hasError('required') && songForm.controls['name'].touched" class="alert alert-danger">{{ 'songNameRequired' | translate }}
           </div>
           <div *ngIf="songForm.controls['name'].hasError('maxlength') && songForm.controls['name'].touched" class="alert alert-danger">{{ 'songNameTooLong' | translate }}
