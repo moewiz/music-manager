@@ -24,16 +24,16 @@ export class PlaylistsComponent implements OnInit {
   searchKey: string;
 
   constructor(private playlistService: PlaylistService,
-              private songService: SongService,
-              private router: Router) {
+    private songService: SongService,
+    private router: Router) {
   }
 
   ngOnInit() {
     this.getPlaylists();
     this.term.valueChanges
-    .debounceTime(300)
-    .distinctUntilChanged()
-    .subscribe(term => this.searchKey = term.trim());
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe(term => this.searchKey = term.trim());
   }
 
   onSelectOne(playlist: Playlist) {
@@ -41,7 +41,10 @@ export class PlaylistsComponent implements OnInit {
     this.playlistSelected.push(playlist);
 
     if (this.isShowListSongs()) {
-      this.songService.getSongsForPlaylist(this.playlistSelected[0].songs).then((songs: Song[]) => this.songs = songs);
+      this.playlistService.getSongsForPlaylist(this.playlistSelected[0]._id, this.playlistSelected[0].songs).subscribe(
+        songs => this.songs = songs,
+        err => console.error(err),
+      );
     } else {
       this.songs.length = 0;
     }
@@ -64,9 +67,10 @@ export class PlaylistsComponent implements OnInit {
   }
 
   getPlaylists(): void {
-    this.playlistService.getPlaylists().then((playlists: Playlist[]) => {
-      this.playlists = playlists;
-    });
+    this.playlistService.getPlaylists().subscribe(
+      playlists => this.playlists = playlists,
+      err => console.error(err)
+    );
   }
 
   isHighlightPlaylist(playlist: Playlist) {

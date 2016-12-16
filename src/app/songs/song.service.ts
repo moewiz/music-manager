@@ -30,19 +30,6 @@ export class SongService {
       .catch(this.handleError);
   }
 
-  getSongsForPlaylist(listSongName: string[]): Promise<Song[]> {
-    return Promise.resolve(SONGS).then((songs: Song[]) => {
-      let songsForPlaylist: Song[] = [];
-      _.forEach(listSongName, (songName) => {
-        let song = _.find(songs, { name: songName });
-        if (_.isObject(song)) {
-          songsForPlaylist.push(song);
-        }
-      });
-      return songsForPlaylist;
-    });
-  }
-
   addSong(song: Song) {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
