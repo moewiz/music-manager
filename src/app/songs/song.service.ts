@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { AuthenticationService } from '../authentication/authentication.service';
 import { Song } from './song';
 import { SONGS } from './mock-songs';
 import * as _ from 'lodash';
@@ -14,11 +15,14 @@ import { Observable } from 'rxjs/Observable';
 export class SongService {
   private baseUrl = 'http://localhost:3000/api/songs';
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authenticationService: AuthenticationService) { }
 
   getSongs(): Observable<Song[]> {
+    let headers = new Headers({ 'Authorization': this.authenticationService.token });
+    let options = new RequestOptions({ headers: headers });
+
     return this.http
-      .get(this.baseUrl)
+      .get(this.baseUrl, options)
       .map(this.extractData)
       .catch(this.handleError);
   }
